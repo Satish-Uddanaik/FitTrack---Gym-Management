@@ -5,6 +5,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
@@ -28,7 +29,7 @@ public class Membership extends BaseEntity {
     private Integer durationInMonths;
 
     @Column(nullable = false)
-    private Double price;
+    private BigDecimal price;
 
     private String description;
 

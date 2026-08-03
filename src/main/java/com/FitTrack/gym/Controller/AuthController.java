@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+//@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -24,7 +25,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(
             @Valid @RequestBody RegisterRequest request) {
-
+        System.out.println("REGISTER API HIT");
         AuthResponse authResponse = authenticationService.register(request);
 
         return ResponseEntity
