@@ -325,4 +325,56 @@ public class MemberServiceImpl implements MemberService{
                         member.getStatus() == MemberStatus.EXPIRED)
                 .count();
     }
+
+    //get recent members
+    @Override
+    public List<MemberResponse> getRecentMembers() {
+
+        User user = getCurrentUser();
+
+        return memberRepository
+                .findTop5ByUserOrderByCreatedAtDesc(user)
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
+
+    @Override
+    public List<MemberResponse> getUpcomingDueBills() {
+
+        User user = getCurrentUser();
+
+        LocalDate today = LocalDate.now();
+
+        LocalDate nextWeek = today.plusDays(7);
+
+        return memberRepository
+                .findByUserAndNextBillDateBetween(
+                        user,
+                        today,
+                        nextWeek
+                )
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
+
+
+    @Override
+    public List<MemberResponse> getDueBills(int days) {
+
+        User user = getCurrentUser();
+
+        LocalDate today = LocalDate.now();
+
+        return memberRepository
+                .findByUserAndNextBillDateBetween(
+                        user,
+                        today,
+                        today.plusDays(days)
+                )
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
 }

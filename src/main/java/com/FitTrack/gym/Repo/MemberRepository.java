@@ -5,12 +5,14 @@ package com.FitTrack.gym.Repo;
 import com.FitTrack.gym.Entity.Member;
 import com.FitTrack.gym.Entity.Membership;
 import com.FitTrack.gym.Entity.User;
+import com.FitTrack.gym.dto.response.MemberResponse;
 import com.FitTrack.gym.enums.MemberStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
@@ -44,4 +46,12 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     List<Member> findByUserAndFullNameContainingIgnoreCase(User user, String name);
 
+
+    List<Member> findTop5ByUserOrderByCreatedAtDesc(User user);
+
+    List<Member> findByUserAndNextBillDateBetween(
+            User user,
+            LocalDate startDate,
+            LocalDate endDate
+    );
 }

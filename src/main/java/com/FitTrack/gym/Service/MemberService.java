@@ -36,4 +36,10 @@ public interface MemberService {
 
     Long getExpiredMemberCount();
 
+    List<MemberResponse> getRecentMembers();
+
+    List<MemberResponse> getUpcomingDueBills();
+
+    List<MemberResponse> getDueBills(int days);
+
 }

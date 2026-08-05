@@ -101,16 +101,6 @@ public class MemberController {
         );
     }
 
-    /**
-     * Members Whose Bill Is Due Today
-     */
-    @GetMapping("/due-bills")
-    public ResponseEntity<List<MemberResponse>> getDueBills() {
-
-        return ResponseEntity.ok(
-                memberService.getMembersWithDueBills()
-        );
-    }
 
     /**
      * Active Members
@@ -176,6 +166,33 @@ public class MemberController {
 
         return ResponseEntity.ok(
                 memberService.getExpiredMemberCount()
+        );
+    }
+
+    @GetMapping("/recent")
+    public ResponseEntity<List<MemberResponse>> getRecentMembers() {
+
+        return ResponseEntity.ok(
+                memberService.getRecentMembers()
+        );
+
+    }
+
+    @GetMapping("/upcoming-bills")
+    public ResponseEntity<List<MemberResponse>> getUpcomingBills() {
+
+        return ResponseEntity.ok(
+                memberService.getUpcomingDueBills()
+        );
+    }
+
+
+    @GetMapping("/due-bills")
+    public ResponseEntity<List<MemberResponse>> getDueBills(
+            @RequestParam(defaultValue = "7") int days) {
+
+        return ResponseEntity.ok(
+                memberService.getDueBills(days)
         );
     }
 
