@@ -4,6 +4,8 @@ package com.FitTrack.gym.Service.impl;
 import com.FitTrack.gym.Entity.Membership;
 import com.FitTrack.gym.Entity.User;
 import com.FitTrack.gym.Exception.OurException;
+import com.FitTrack.gym.Exception.ResourceNotFoundException;
+import com.FitTrack.gym.Exception.UnauthorizedException;
 import com.FitTrack.gym.Repo.MembershipRepository;
 import com.FitTrack.gym.Repo.UserRepository;
 import com.FitTrack.gym.Service.MembershipService;
@@ -36,7 +38,7 @@ public class MembershipServiceImpl implements MembershipService {
 
         return userRepository.findByUsername(username)
                 .orElseThrow(() ->
-                        new OurException("User not found"));
+                        new ResourceNotFoundException("User not found"));
     }
 
     /**
@@ -89,10 +91,10 @@ public class MembershipServiceImpl implements MembershipService {
 
         Membership membership = membershipRepository.findById(id)
                 .orElseThrow(() ->
-                        new OurException("Membership not found"));
+                        new ResourceNotFoundException("Membership not found"));
 
         if (!membership.getUser().getId().equals(user.getId())) {
-            throw new OurException("Access Denied");
+            throw new UnauthorizedException("Access Denied");
         }
 
         return mapToResponse(membership);
@@ -106,10 +108,10 @@ public class MembershipServiceImpl implements MembershipService {
 
         Membership membership = membershipRepository.findById(id)
                 .orElseThrow(() ->
-                        new OurException("Membership not found"));
+                        new ResourceNotFoundException("Membership not found"));
 
         if (!membership.getUser().getId().equals(user.getId())) {
-            throw new OurException("Access Denied");
+            throw new UnauthorizedException("Access Denied");
         }
 
         membership.setPlanName(request.getPlanName());
@@ -129,10 +131,10 @@ public class MembershipServiceImpl implements MembershipService {
 
         Membership membership = membershipRepository.findById(id)
                 .orElseThrow(() ->
-                        new OurException("Membership not found"));
+                        new ResourceNotFoundException("Membership not found"));
 
         if (!membership.getUser().getId().equals(user.getId())) {
-            throw new OurException("Access Denied");
+            throw new UnauthorizedException("Access Denied");
         }
 
         membershipRepository.delete(membership);

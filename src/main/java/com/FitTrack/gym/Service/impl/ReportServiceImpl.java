@@ -1,6 +1,7 @@
 package com.FitTrack.gym.Service.impl;
 
 import com.FitTrack.gym.Entity.User;
+import com.FitTrack.gym.Exception.ResourceNotFoundException;
 import com.FitTrack.gym.Repo.MemberRepository;
 import com.FitTrack.gym.Repo.MembershipRepository;
 import com.FitTrack.gym.Repo.UserRepository;
@@ -176,7 +177,7 @@ public class ReportServiceImpl implements ReportService {
 
         return userRepository.findByUsername(username)
                 .orElseThrow(() ->
-                        new RuntimeException("User not found"));
+                        new ResourceNotFoundException("User not found"));
 
     }
 

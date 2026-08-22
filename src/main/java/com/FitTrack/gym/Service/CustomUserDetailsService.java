@@ -3,6 +3,7 @@ package com.FitTrack.gym.Service;
 
 
 import com.FitTrack.gym.Exception.OurException;
+import com.FitTrack.gym.Exception.ResourceNotFoundException;
 import com.FitTrack.gym.Repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         return userRepository.findByUsername(username)
                 .orElseThrow(() ->
-                        new OurException(
+                        new ResourceNotFoundException(
                                 "User not found with username: " + username
                         ));
     }

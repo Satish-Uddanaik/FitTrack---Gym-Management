@@ -16,4 +16,7 @@ public class ProfileUpdateRequest {
 
     @NotBlank(message = "Gym name is required")
     private String gymName;
+
+    @NotBlank(message = "Mobile number is required")
+    private String mobileNumber;
 }

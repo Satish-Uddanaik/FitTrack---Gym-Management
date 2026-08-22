@@ -1,6 +1,8 @@
 package com.FitTrack.gym.Service.impl;
 
 import com.FitTrack.gym.Entity.User;
+import com.FitTrack.gym.Exception.ResourceAlreadyExistsException;
+import com.FitTrack.gym.Exception.ResourceNotFoundException;
 import com.FitTrack.gym.Repo.UserRepository;
 import com.FitTrack.gym.config.JwtService;
 import com.FitTrack.gym.dto.ApiResponse;
@@ -39,13 +41,13 @@ public class ProfileServiceImpl implements ProfileService {
         // Username validation
         if (!user.getUsername().equals(request.getUsername())
                 && userRepository.existsByUsername(request.getUsername())) {
-            throw new RuntimeException("Username already exists");
+            throw new ResourceAlreadyExistsException("Username already exists");
         }
 
         // Email validation
         if (!user.getEmail().equals(request.getEmail())
                 && userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email already exists");
+            throw new ResourceAlreadyExistsException("Email already exists");
         }
 
         user.setUsername(request.getUsername());
@@ -69,7 +71,7 @@ public class ProfileServiceImpl implements ProfileService {
         User user = getLoggedInUser();
 
         if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
-            throw new RuntimeException("Old password is incorrect");
+            throw new ResourceNotFoundException("Old password is incorrect");
         }
 
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
@@ -92,7 +94,7 @@ public class ProfileServiceImpl implements ProfileService {
         String username = authentication.getName();
 
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
     private ProfileResponse mapToResponse(User user) {

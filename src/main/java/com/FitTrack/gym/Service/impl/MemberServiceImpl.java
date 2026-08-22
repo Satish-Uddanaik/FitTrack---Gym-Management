@@ -4,6 +4,8 @@ import com.FitTrack.gym.Entity.Member;
 import com.FitTrack.gym.Entity.Membership;
 import com.FitTrack.gym.Entity.User;
 import com.FitTrack.gym.Exception.OurException;
+import com.FitTrack.gym.Exception.ResourceNotFoundException;
+import com.FitTrack.gym.Exception.UnauthorizedException;
 import com.FitTrack.gym.Repo.MemberRepository;
 import com.FitTrack.gym.Repo.MembershipRepository;
 import com.FitTrack.gym.Repo.UserRepository;
@@ -40,7 +42,7 @@ public class MemberServiceImpl implements MemberService{
 
         return userRepository.findByUsername(username)
                 .orElseThrow(() ->
-                        new OurException("User not found"));
+                        new ResourceNotFoundException("User not found"));
     }
 
     /**
@@ -78,10 +80,10 @@ public class MemberServiceImpl implements MemberService{
         Membership membership = membershipRepository
                 .findById(request.getMembershipId())
                 .orElseThrow(() ->
-                        new OurException("Membership not found"));
+                        new ResourceNotFoundException("Membership not found"));
 
         if (!membership.getUser().getId().equals(user.getId())) {
-            throw new OurException("Access Denied");
+            throw new UnauthorizedException("Access Denied");
         }
 
         Member member = Member.builder()
@@ -124,10 +126,10 @@ public class MemberServiceImpl implements MemberService{
 
         Member member = memberRepository.findById(id)
                 .orElseThrow(() ->
-                        new OurException("Member not found"));
+                        new ResourceNotFoundException("Member not found"));
 
         if (!member.getUser().getId().equals(user.getId())) {
-            throw new OurException("Access Denied");
+            throw new UnauthorizedException("Access Denied");
         }
 
         return mapToResponse(member);
@@ -156,18 +158,18 @@ public class MemberServiceImpl implements MemberService{
 
         Member member = memberRepository.findById(id)
                 .orElseThrow(() ->
-                        new OurException("Member not found"));
+                        new ResourceNotFoundException("Member not found"));
 
         if (!member.getUser().getId().equals(user.getId())) {
-            throw new OurException("Access Denied");
+            throw new UnauthorizedException("Access Denied");
         }
 
         Membership membership = membershipRepository.findById(request.getMembershipId())
                 .orElseThrow(() ->
-                        new OurException("Membership not found"));
+                        new ResourceNotFoundException("Membership not found"));
 
         if (!membership.getUser().getId().equals(user.getId())) {
-            throw new OurException("Access Denied");
+            throw new UnauthorizedException("Access Denied");
         }
 
         member.setFullName(request.getFullName());
@@ -196,10 +198,10 @@ public class MemberServiceImpl implements MemberService{
 
         Member member = memberRepository.findById(id)
                 .orElseThrow(() ->
-                        new OurException("Member not found"));
+                        new ResourceNotFoundException("Member not found"));
 
         if (!member.getUser().getId().equals(user.getId())) {
-            throw new OurException("Access Denied");
+            throw new UnauthorizedException("Access Denied");
         }
 
         memberRepository.delete(member);
@@ -216,7 +218,7 @@ public class MemberServiceImpl implements MemberService{
         try {
             memberStatus = MemberStatus.valueOf(status.toUpperCase());
         } catch (IllegalArgumentException ex) {
-            throw new OurException("Invalid member status");
+            throw new ResourceNotFoundException("Invalid member status");
         }
 
         return memberRepository.findByStatus(memberStatus)

@@ -1,6 +1,8 @@
 package com.FitTrack.gym.Service.impl;
 
 
+import com.FitTrack.gym.Exception.ResourceAlreadyExistsException;
+import com.FitTrack.gym.Exception.ResourceNotFoundException;
 import com.FitTrack.gym.config.JwtService;
 import com.FitTrack.gym.dto.request.LoginRequest;
 import com.FitTrack.gym.dto.request.RegisterRequest;
@@ -37,11 +39,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 + repository.existsByEmail(request.getEmail()));
 
         if (repository.existsByUsername(request.getUsername())) {
-            throw new RuntimeException("Username already exists");
+            throw new ResourceAlreadyExistsException("Username already exists");
         }
 
         if (repository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email already exists");
+            throw new ResourceAlreadyExistsException("Email already exists");
         }
         User user = User.builder()
                 .username(request.getUsername())
@@ -106,7 +108,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         );
 
         User user = repository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         String token = jwtService.generateToken(user);
 

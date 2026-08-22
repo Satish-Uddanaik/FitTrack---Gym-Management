@@ -2,6 +2,7 @@ package com.FitTrack.gym.Service.impl;
 
 import com.FitTrack.gym.Entity.User;
 import com.FitTrack.gym.Exception.OurException;
+import com.FitTrack.gym.Exception.ResourceNotFoundException;
 import com.FitTrack.gym.Repo.MemberRepository;
 import com.FitTrack.gym.Repo.MembershipRepository;
 import com.FitTrack.gym.Repo.UserRepository;
@@ -32,7 +33,7 @@ public class DashboardServiceImpl implements DashboardService {
 
         return userRepository.findByUsername(username)
                 .orElseThrow(() ->
-                        new OurException("User not found"));
+                        new ResourceNotFoundException("User not found"));
     }
 
     @Override
