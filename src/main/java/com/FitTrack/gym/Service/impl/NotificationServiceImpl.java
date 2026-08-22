@@ -2,6 +2,7 @@ package com.FitTrack.gym.Service.impl;
 
 import com.FitTrack.gym.Entity.Member;
 import com.FitTrack.gym.Entity.User;
+import com.FitTrack.gym.Exception.ResourceNotFoundException;
 import com.FitTrack.gym.Repo.MemberRepository;
 import com.FitTrack.gym.Repo.UserRepository;
 import com.FitTrack.gym.dto.response.NotificationResponse;
@@ -103,7 +104,7 @@ public class NotificationServiceImpl implements NotificationService {
         String username = authentication.getName();
 
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
 }

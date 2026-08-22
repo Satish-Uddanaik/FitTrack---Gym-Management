@@ -1,7 +1,5 @@
 package com.FitTrack.gym.Repo;
 
-
-
 import com.FitTrack.gym.Entity.Member;
 import com.FitTrack.gym.Entity.Membership;
 import com.FitTrack.gym.Entity.User;
@@ -15,7 +13,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
